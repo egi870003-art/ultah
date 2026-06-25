@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* WATERMARK DIBIKIN LEBIH JELAS & BESAR DI SINI BRE */
+        /* WATERMARK BACKGROUND */
         .watermark-bg {
             position: fixed;
             top: 50%;
@@ -50,6 +50,7 @@
             top: 10%;
             left: 10%;
             z-index: 1;
+            pointer-events: none;
         }
         .glow-2 {
             position: absolute;
@@ -61,11 +62,12 @@
             bottom: 10%;
             right: 10%;
             z-index: 1;
+            pointer-events: none;
         }
 
         .container {
             position: relative;
-            z-index: 2;
+            z-index: 10;
             width: 100%;
             max-width: 600px;
             background: rgba(20, 30, 22, 0.65);
@@ -92,17 +94,59 @@
             margin-bottom: 30px;
         }
 
+        /* TOMBOL MESSAGE FROM GINN DI ATAS JUDUL (DIBESARKAN) */
+        .msg-ginn-btn {
+            background: linear-gradient(90deg, rgba(163, 226, 178, 0.15), rgba(76, 140, 93, 0.2));
+            color: #a3e2b2;
+            border: 1px solid rgba(163, 226, 178, 0.4);
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 20;
+        }
+
+        .msg-ginn-btn:hover {
+            transform: scale(1.05);
+            background: rgba(163, 226, 178, 0.25);
+            box-shadow: 0 0 15px rgba(163, 226, 178, 0.3);
+        }
+
+        /* SURAT UCAPAN STYLE */
+        .letter-box {
+            background: rgba(27, 45, 30, 0.4);
+            border: 1px dashed rgba(163, 226, 178, 0.3);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 25px;
+            text-align: left;
+            line-height: 1.6;
+            color: #f0fdf4;
+            font-size: 15px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
         /* Boxes Grid */
         .grid-boxes {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 25px;
+            position: relative;
+            z-index: 20;
         }
 
         .box-wrapper {
             position: relative;
-            perspective: 1000px;
         }
 
         .box-card {
@@ -133,11 +177,7 @@
         .box-icon {
             font-size: 40px;
             margin-bottom: 8px;
-            transition: transform 0.3s ease;
-        }
-
-        .box-card:hover .box-icon {
-            transform: scale(1.1) rotate(5deg);
+            pointer-events: none; /* Supaya klik tidak tersangkut di icon emoji */
         }
 
         .box-number {
@@ -148,6 +188,7 @@
             border-radius: 20px;
             color: #a3e2b2;
             border: 1px solid rgba(163, 226, 178, 0.2);
+            pointer-events: none; /* Supaya klik tidak tersangkut di teks */
         }
 
         /* Revealed State */
@@ -173,10 +214,9 @@
             margin-top: 8px;
             color: #ffffff;
             line-height: 1.3;
-            animation: fadeIn 0.5s ease forwards;
         }
 
-        /* Custom Modal / Notification Text */
+        /* OVERLAY MODAL FIX (MENGGUNAKAN DISPLAY NONE AGAR TIDAK MEMBLOKIR) */
         .troll-overlay {
             position: fixed;
             top: 0;
@@ -185,30 +225,31 @@
             height: 100%;
             background: rgba(10, 15, 11, 0.85);
             backdrop-filter: blur(8px);
-            z-index: 10;
-            display: flex;
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: none; /* Diubah ke none biar halaman utama bersih total dari jangkauan modal */
             justify-content: center;
             align-items: center;
             opacity: 0;
-            pointer-events: none;
             transition: opacity 0.3s ease;
         }
 
         .troll-overlay.active {
+            display: flex; /* Aktif kembali menjadi flex */
             opacity: 1;
-            pointer-events: auto;
         }
 
         .troll-content {
-            background: rgba(30, 45, 33, 0.9);
-            border: 2px solid #a3e2b2;
-            padding: 30px;
+            background: rgba(25, 40, 28, 0.95);
+            border: 1px solid rgba(163, 226, 178, 0.4);
+            padding: 30px 24px;
             border-radius: 20px;
             max-width: 85%;
+            width: 340px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transform: scale(0.7);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
         }
 
         .troll-overlay.active .troll-content {
@@ -216,27 +257,23 @@
         }
 
         .troll-text {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             color: #ffffff;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            margin-bottom: 22px;
+            line-height: 1.6;
         }
 
         .btn-close {
-            background: #a3e2b2;
-            color: #0a0f0b;
+            background: linear-gradient(90deg, #519e64, #367345);
+            color: #ffffff;
             border: none;
-            padding: 10px 24px;
+            padding: 12px 30px;
+            font-size: 14px;
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-close:hover {
-            background: #cdffd9;
-            box-shadow: 0 0 15px rgba(163, 226, 178, 0.4);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         /* Countdown overlay */
@@ -245,7 +282,6 @@
             font-weight: 800;
             color: #a3e2b2;
             text-shadow: 0 0 30px rgba(163, 226, 178, 0.6);
-            animation: pulse 1s infinite;
             margin: 20px 0;
         }
 
@@ -260,17 +296,12 @@
             border-radius: 14px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(54, 115, 69, 0.3);
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             margin-top: 15px;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(163, 226, 178, 0.4);
-            background: linear-gradient(90deg, #61bd76, #3d824e);
+            position: relative;
+            z-index: 20;
         }
 
         .hidden {
@@ -306,86 +337,53 @@
             color: white;
             font-size: 16px;
             width: 100%;
-            transition: all 0.3s;
-        }
-
-        .input-style:focus {
-            outline: none;
-            border-color: #a3e2b2;
-            background: rgba(25, 40, 28, 0.8);
-            box-shadow: 0 0 10px rgba(163, 226, 178, 0.2);
         }
 
         #input-server {
             flex: 0 0 35%;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-
-        .celebrate-icon {
-            font-size: 55px;
-            margin-bottom: 15px;
-            animation: pulse 1s infinite;
         }
     </style>
 </head>
 <body>
 
-    <!-- WATERMARK BACKGROUND -->
     <div class="watermark-bg">Ginn</div>
-
     <div class="glow-1"></div>
     <div class="glow-2"></div>
 
-    <!-- TROLL MODAL -->
-    <div class="troll-overlay" id="trollModal">
-        <div class="troll-content">
-            <div class="troll-text">mending buka kotak yg lain aja bre 😹✌️</div>
-            <button class="btn-close" onclick="closeTroll()">Oke Bre</button>
-        </div>
-    </div>
-
-    <!-- MAIN APP CONTAINER -->
     <div class="container">
         
-        <!-- STAGE 1: BOX CHOOSING -->
         <div id="stage-boxes">
-            <h1>Pilih Hadiah Spesialmu! 🎁</h1>
-            <p class="subtitle">Ada 4 kotak misteri di bawah. Pilih salah satu kotak terbaikmu, bre!</p>
+            <button class="msg-ginn-btn" onclick="openMessage()">
+                ✉️ Message from ginn
+            </button>
+
+            <h1 id="main-title">pilih yang bener arr tar nyesel🤭</h1>
+            <p class="subtitle" id="main-subtitle">Ada 4 kotak misteri di bawah. Pilih salah satu kotak terbaikmu, bre!</p>
             
             <div class="grid-boxes">
-                <!-- BOX 1 -->
                 <div class="box-wrapper">
                     <div class="box-card" onclick="chooseBox(1)" id="box-1">
                         <div class="box-icon" id="icon-1">📦</div>
                         <div class="box-number" id="num-1">Kotak 1</div>
                     </div>
                 </div>
-                <!-- BOX 2 -->
                 <div class="box-wrapper">
                     <div class="box-card" onclick="chooseBox(2)" id="box-2">
                         <div class="box-icon" id="icon-2">📦</div>
                         <div class="box-number" id="num-2">Kotak 2</div>
                     </div>
                 </div>
-                <!-- BOX 3 -->
                 <div class="box-wrapper">
                     <div class="box-card" onclick="chooseBox(3)" id="box-3">
                         <div class="box-icon" id="icon-3">📦</div>
                         <div class="box-number" id="num-3">Kotak 3</div>
                     </div>
                 </div>
-                <!-- BOX 4 -->
                 <div class="box-wrapper">
                     <div class="box-card" onclick="chooseBox(4)" id="box-4">
                         <div class="box-icon" id="icon-4">📦</div>
@@ -394,21 +392,33 @@
                 </div>
             </div>
 
-            <!-- AREA ANIMASI COUNTDOWN -->
             <div id="countdown-area" class="hidden">
                 <p style="color: #a3e2b2; font-weight: 600;">Membuka Kotak 1 dalam...</p>
                 <div class="countdown-el" id="countdown-num">3</div>
             </div>
 
-            <!-- TOMBOL LANJUTKAN -->
             <button id="btn-next" class="action-btn hidden" onclick="goToForm()">
                 Lanjutkan 🏎️💨
             </button>
         </div>
 
-        <!-- STAGE 2: FORM INPUT ML -->
+        <div id="stage-message" class="hidden">
+            <div style="font-size: 45px; margin-bottom: 10px;">🎁✨</div>
+            <h1 style="margin-bottom: 20px;">Message from Ginn</h1>
+            
+            <div class="letter-box">
+                Selamat ulang tahun! 🎉<br><br>
+                Semoga di usia yang baru ini kamu selalu diberi kesehatan, kebahagiaan, rezeki yang lancar, dan dimudahkan dalam meraih semua cita-cita. Terima kasih sudah menjadi teman yang baik. Semoga setiap langkahmu membawa hal-hal terbaik dan semua impianmu bisa terwujud.<br><br>
+                Selamat menikmati hari spesialmu. Semoga harimu penuh kebahagiaan dan orang-orang yang kamu sayangi selalu ada di sekitarmu. Happy birthday! 🥳🎂
+            </div>
+
+            <button class="action-btn" style="background: linear-gradient(90deg, #444, #222);" onclick="backToBoxes()">
+                Kembali
+            </button>
+        </div>
+
         <div id="stage-form" class="hidden">
-            <div class="celebrate-icon">💎🎮</div>
+            <div style="font-size: 55px; margin-bottom: 15px;">💎🎮</div>
             <h1>Klaim Weekly Diamond Pass</h1>
             <p class="subtitle" style="margin-bottom: 25px;">Satu langkah lagi! Masukkan ID & Server MLBB kamu dengan benar untuk pengiriman hadiah.</p>
             
@@ -427,14 +437,41 @@
 
     </div>
 
+    <div class="troll-overlay" id="trollModal">
+        <div class="troll-content">
+            <div class="troll-text">mending buka kotak yg lain aja bre 😹✌️</div>
+            <button class="btn-close" onclick="closeTroll()">Oke Bre</button>
+        </div>
+    </div>
+
+    <div class="troll-overlay" id="successModal">
+        <div class="troll-content" style="border-color: #a3e2b2; width: 360px;">
+            <div style="font-size: 45px; margin-bottom: 10px;">🚀</div>
+            <div class="troll-text" style="font-size: 15px;">Data ID & Server berhasil dikirim! WDP kamu akan segera diisi oleh Ginn ganteng pisan sa dunia anjai mabar mabar 🏎️💨</div>
+            <button class="btn-close" onclick="closeSuccess()">OKE</button>
+        </div>
+    </div>
+
     <script>
         let isRevealed = false;
+
+        function openMessage() {
+            document.getElementById('stage-boxes').classList.add('hidden');
+            document.getElementById('stage-message').classList.remove('hidden');
+        }
+
+        function backToBoxes() {
+            document.getElementById('stage-message').classList.add('hidden');
+            document.getElementById('stage-boxes').classList.remove('hidden');
+        }
 
         function chooseBox(boxNum) {
             if (isRevealed) return;
 
             if (boxNum !== 1) {
-                document.getElementById('trollModal').classList.add('active');
+                const modal = document.getElementById('trollModal');
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('active'), 10);
             } else {
                 isRevealed = true;
                 startCountdown();
@@ -442,7 +479,15 @@
         }
 
         function closeTroll() {
-            document.getElementById('trollModal').classList.remove('active');
+            const modal = document.getElementById('trollModal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        function closeSuccess() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
         }
 
         function startCountdown() {
@@ -501,8 +546,8 @@
             p4.innerText = 'Tai Ilham';
             box4.appendChild(p4);
 
-            document.querySelector('#stage-boxes h1').innerText = 'Selamat! Anda Menang 🎉';
-            document.querySelector('.subtitle').innerText = 'Hadiah utama Weekly Diamond Pass berhasil didapatkan!';
+            document.getElementById('main-title').innerText = 'Selamat! Anda Menang 🎉';
+            document.getElementById('main-subtitle').innerText = 'Hadiah utama Weekly Diamond Pass berhasil didapatkan!';
 
             document.getElementById('btn-next').classList.remove('hidden');
         }
@@ -521,7 +566,9 @@
                 return;
             }
 
-            alert("Data ID & Server berhasil dikirim! WDP kamu akan segera diisi oleh Ginn ganteng pisan sa dunia anjai mabar selebew 🏎️💨");
+            const modal = document.getElementById('successModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
         }
     </script>
 </body>

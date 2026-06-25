@@ -3,295 +3,526 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spesial Gift Ultah! 🎁</title>
+    <title>Special Gift Buat Lo Bre!</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1A261A 0%, #3B533B 100%);
+            background: radial-gradient(circle at center, #1b2e1e 0%, #0a0f0b 100%);
+            color: #e2f0e5;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #E8F5E9;
+            overflow-x: hidden;
             padding: 20px;
-        }
-
-        /* Tema Glassmorphism Matcha-Hitam */
-        .container {
-            background: rgba(26, 40, 26, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(139, 195, 74, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #A3E635;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        p.subtitle {
-            font-size: 0.95rem;
-            color: #C5E1A5;
-            margin-bottom: 30px;
-        }
-
-        /* Grid Kotak */
-        .box-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .box {
-            background: rgba(255, 255, 255, 0.07);
-            border: 2px dashed rgba(163, 230, 53, 0.4);
-            border-radius: 15px;
-            padding: 35px 20px;
-            font-size: 3.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             position: relative;
         }
 
-        .box:hover {
-            transform: translateY(-5px);
-            background: rgba(163, 230, 53, 0.15);
-            border-color: #A3E635;
-            box-shadow: 0 0 15px rgba(163, 230, 53, 0.3);
+        /* WATERMARK DIBIKIN LEBIH JELAS & BESAR DI SINI BRE */
+        .watermark-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 25vw;
+            font-weight: 900;
+            color: rgba(163, 226, 178, 0.09);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
         }
 
-        .box-label {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #A3E635;
-            margin-top: 10px;
+        /* Ambient background glow elements */
+        .glow-1 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(76, 140, 93, 0.15);
+            border-radius: 50%;
+            filter: blur(80px);
+            top: 10%;
+            left: 10%;
+            z-index: 1;
+        }
+        .glow-2 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(40, 80, 50, 0.2);
+            border-radius: 50%;
+            filter: blur(100px);
+            bottom: 10%;
+            right: 10%;
+            z-index: 1;
         }
 
-        /* Teks Zonk */
-        .alert-text {
-            color: #FF8A80;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 15px;
-            min-height: 27px;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Hasil Akhir Terbuka */
-        .result-container {
-            display: none;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .result-title {
-            color: #A3E635;
-            font-weight: bold;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 5px;
-        }
-
-        .result-item {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-        }
-        .reveal-win { color: #A3E635; font-weight: bold; }
-        .reveal-lose { color: #B0BEC5; text-decoration: line-through; opacity: 0.7; }
-
-        /* Tombol & Form */
-        .btn-continue {
-            display: none;
+        .container {
+            position: relative;
+            z-index: 2;
             width: 100%;
-            background: #A3E635;
-            color: #1A261A;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1rem;
+            max-width: 600px;
+            background: rgba(20, 30, 22, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(120, 190, 135, 0.25);
+            border-radius: 24px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #a3e2b2;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(163, 226, 178, 0.3);
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #8fa895;
+            margin-bottom: 30px;
+        }
+
+        /* Boxes Grid */
+        .grid-boxes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .box-wrapper {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .box-card {
+            background: rgba(35, 55, 38, 0.5);
+            border: 1px solid rgba(163, 226, 178, 0.15);
+            border-radius: 16px;
+            min-height: 140px;
+            height: auto;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            margin-top: 25px;
-            transition: background 0.2s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         }
 
-        .btn-continue:hover {
-            background: #bef264;
+        .box-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(163, 226, 178, 0.5);
+            background: rgba(45, 75, 50, 0.6);
+            box-shadow: 0 12px 24px rgba(163, 226, 178, 0.15);
         }
 
-        .form-section {
-            display: none;
-            margin-top: 25px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 25px;
-            text-align: left;
+        .box-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
         }
 
+        .box-card:hover .box-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .box-number {
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(163, 226, 178, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #a3e2b2;
+            border: 1px solid rgba(163, 226, 178, 0.2);
+        }
+
+        /* Revealed State */
+        .box-card.revealed-winner {
+            background: linear-gradient(135deg, rgba(46, 117, 64, 0.8), rgba(20, 50, 28, 0.9));
+            border-color: #a3e2b2;
+            box-shadow: 0 0 25px rgba(163, 226, 178, 0.4);
+            cursor: default;
+            transform: none !important;
+        }
+        
+        .box-card.revealed-loser {
+            background: rgba(20, 25, 21, 0.8);
+            border-color: rgba(255, 255, 255, 0.05);
+            opacity: 0.5;
+            cursor: default;
+            transform: none !important;
+        }
+
+        .prize-text {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            color: #ffffff;
+            line-height: 1.3;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Custom Modal / Notification Text */
+        .troll-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 11, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .troll-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .troll-content {
+            background: rgba(30, 45, 33, 0.9);
+            border: 2px solid #a3e2b2;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 85%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: scale(0.7);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .troll-overlay.active .troll-content {
+            transform: scale(1);
+        }
+
+        .troll-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn-close {
+            background: #a3e2b2;
+            color: #0a0f0b;
+            border: none;
+            padding: 10px 24px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-close:hover {
+            background: #cdffd9;
+            box-shadow: 0 0 15px rgba(163, 226, 178, 0.4);
+        }
+
+        /* Countdown overlay */
+        .countdown-el {
+            font-size: 72px;
+            font-weight: 800;
+            color: #a3e2b2;
+            text-shadow: 0 0 30px rgba(163, 226, 178, 0.6);
+            animation: pulse 1s infinite;
+            margin: 20px 0;
+        }
+
+        /* Button Action */
+        .action-btn {
+            background: linear-gradient(90deg, #519e64, #367345);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(54, 115, 69, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(163, 226, 178, 0.4);
+            background: linear-gradient(90deg, #61bd76, #3d824e);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Form Area */
         .form-group {
-            margin-bottom: 15px;
+            text-align: left;
+            margin-bottom: 20px;
         }
 
-        label {
+        .form-group label {
             display: block;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            color: #C5E1A5;
+            font-size: 13px;
+            font-weight: 600;
+            color: #a3e2b2;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .input-row {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
-        input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(163, 230, 53, 0.3);
-            padding: 12px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
+        .input-style {
+            background: rgba(15, 25, 17, 0.7);
+            border: 1px solid rgba(163, 226, 178, 0.2);
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
             width: 100%;
+            transition: all 0.3s;
         }
 
-        input:focus {
+        .input-style:focus {
             outline: none;
-            border-color: #A3E635;
-            background: rgba(255, 255, 255, 0.1);
+            border-color: #a3e2b2;
+            background: rgba(25, 40, 28, 0.8);
+            box-shadow: 0 0 10px rgba(163, 226, 178, 0.2);
         }
 
-        .input-id { flex: 2; }
-        .input-server { flex: 1; max-width: 110px; }
+        #input-server {
+            flex: 0 0 35%;
+        }
 
-        .btn-submit {
-            width: 100%;
-            background: #A3E635;
-            color: #1A261A;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .celebrate-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+            animation: pulse 1s infinite;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🎁 Birthday Gift For You!</h1>
-        <p class="subtitle">Pilih salah satu kotak di bawah untuk mengambil hadiahmu bre</p>
+    <!-- WATERMARK BACKGROUND -->
+    <div class="watermark-bg">Ginn</div>
 
-        <div class="box-grid" id="boxGrid">
-            <div class="box" onclick="chooseBox(1)">
-                📦 <div class="box-label">Kotak 1</div>
-            </div>
-            <div class="box" onclick="chooseBox(2)">
-                📦 <div class="box-label">Kotak 2</div>
-            </div>
-            <div class="box" onclick="chooseBox(3)">
-                📦 <div class="box-label">Kotak 3</div>
-            </div>
-            <div class="box" onclick="chooseBox(4)">
-                📦 <div class="box-label">Kotak 4</div>
-            </div>
-        </div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
 
-        <div class="alert-text" id="alertText"></div>
-
-        <div class="result-container" id="resultContainer">
-            <div class="result-title">🎉 Hadiah Yang Didapatkan:</div>
-            <div class="result-item reveal-win">➔ Kotak 1: Weekly Diamond Pass</div>
-            <br>
-            <div class="result-title" style="color: #FF8A80;">❌ Hadiah Yang Tidak Terpilih:</div>
-            <div class="result-item reveal-lose">➔ Kotak 2: 2 Janda Pamidangan</div>
-            <div class="result-item reveal-lose">➔ Kotak 3: Rp1jt</div>
-            <div class="result-item reveal-lose">➔ Kotak 4: Tai Ilham</div>
-        </div>
-
-        <button class="btn-continue" id="btnContinue" onclick="showForm()">Lanjutkan</button>
-
-        <div class="form-section" id="formSection">
-            <h3 style="margin-bottom: 15px; color: #A3E635;">Klaim Weekly Diamond Pass</h3>
-            <form onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label>Masukkan Data Mobile Legends Kamu:</label>
-                    <div class="input-row">
-                        <input type="number" class="input-id" placeholder="User ID" required>
-                        <input type="number" class="input-server" placeholder="(Server)" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn-submit">Kirim & Proses Hadiah</button>
-            </form>
+    <!-- TROLL MODAL -->
+    <div class="troll-overlay" id="trollModal">
+        <div class="troll-content">
+            <div class="troll-text">mending buka kotak yg lain aja bre 😹✌️</div>
+            <button class="btn-close" onclick="closeTroll()">Oke Bre</button>
         </div>
     </div>
 
-    <script>
-        let isOpened = false;
-
-        function chooseBox(boxNumber) {
-            if (isOpened) return;
-
-            const alertText = document.getElementById('alertText');
+    <!-- MAIN APP CONTAINER -->
+    <div class="container">
+        
+        <!-- STAGE 1: BOX CHOOSING -->
+        <div id="stage-boxes">
+            <h1>Pilih Hadiah Spesialmu! 🎁</h1>
+            <p class="subtitle">Ada 4 kotak misteri di bawah. Pilih salah satu kotak terbaikmu, bre!</p>
             
-            if (boxNumber === 1) {
-                isOpened = true;
-                alertText.innerHTML = "🎉 Selamat! Kamu memilih kotak yang tepat!";
-                alertText.style.color = "#A3E635";
-                
-                const boxes = document.querySelectorAll('.box');
-                boxes[0].style.background = "rgba(163, 230, 53, 0.2)";
-                boxes[0].style.borderColor = "#A3E635";
-                boxes[0].innerHTML = "💎 <div class='box-label' style='color:#fff;'>WDP</div>";
-                
-                document.getElementById('resultContainer').style.display = 'block';
-                document.getElementById('btnContinue').style.display = 'block';
+            <div class="grid-boxes">
+                <!-- BOX 1 -->
+                <div class="box-wrapper">
+                    <div class="box-card" onclick="chooseBox(1)" id="box-1">
+                        <div class="box-icon" id="icon-1">📦</div>
+                        <div class="box-number" id="num-1">Kotak 1</div>
+                    </div>
+                </div>
+                <!-- BOX 2 -->
+                <div class="box-wrapper">
+                    <div class="box-card" onclick="chooseBox(2)" id="box-2">
+                        <div class="box-icon" id="icon-2">📦</div>
+                        <div class="box-number" id="num-2">Kotak 2</div>
+                    </div>
+                </div>
+                <!-- BOX 3 -->
+                <div class="box-wrapper">
+                    <div class="box-card" onclick="chooseBox(3)" id="box-3">
+                        <div class="box-icon" id="icon-3">📦</div>
+                        <div class="box-number" id="num-3">Kotak 3</div>
+                    </div>
+                </div>
+                <!-- BOX 4 -->
+                <div class="box-wrapper">
+                    <div class="box-card" onclick="chooseBox(4)" id="box-4">
+                        <div class="box-icon" id="icon-4">📦</div>
+                        <div class="box-number" id="num-4">Kotak 4</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AREA ANIMASI COUNTDOWN -->
+            <div id="countdown-area" class="hidden">
+                <p style="color: #a3e2b2; font-weight: 600;">Membuka Kotak 1 dalam...</p>
+                <div class="countdown-el" id="countdown-num">3</div>
+            </div>
+
+            <!-- TOMBOL LANJUTKAN -->
+            <button id="btn-next" class="action-btn hidden" onclick="goToForm()">
+                Lanjutkan 🏎️💨
+            </button>
+        </div>
+
+        <!-- STAGE 2: FORM INPUT ML -->
+        <div id="stage-form" class="hidden">
+            <div class="celebrate-icon">💎🎮</div>
+            <h1>Klaim Weekly Diamond Pass</h1>
+            <p class="subtitle" style="margin-bottom: 25px;">Satu langkah lagi! Masukkan ID & Server MLBB kamu dengan benar untuk pengiriman hadiah.</p>
+            
+            <div class="form-group">
+                <label>ID & Server Mobile Legends</label>
+                <div class="input-row">
+                    <input type="number" id="input-id" class="input-style" placeholder="Masukkan ID Game (Contoh: 12345678)" required>
+                    <input type="number" id="input-server" class="input-style" placeholder="(Server)" required>
+                </div>
+            </div>
+
+            <button class="action-btn" style="width: 100%; justify-content: center;" onclick="submitData()">
+                Kirim Hadiah Sekarang! 🚀
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        let isRevealed = false;
+
+        function chooseBox(boxNum) {
+            if (isRevealed) return;
+
+            if (boxNum !== 1) {
+                document.getElementById('trollModal').classList.add('active');
             } else {
-                alertText.innerText = "mending buka kotak 1 aja bre 😹✌️";
-                alertText.style.color = "#FF8A80";
+                isRevealed = true;
+                startCountdown();
             }
         }
 
-        function showForm() {
-            document.getElementById('formSection').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' });
-            }, 100);
+        function closeTroll() {
+            document.getElementById('trollModal').classList.remove('active');
         }
 
-        function submitForm(e) {
-            e.preventDefault();
+        function startCountdown() {
+            const countdownArea = document.getElementById('countdown-area');
+            const countdownNum = document.getElementById('countdown-num');
+            
+            countdownArea.classList.remove('hidden');
+            
+            let timeLeft = 3;
+            countdownNum.innerText = timeLeft;
+
+            let timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    countdownNum.innerText = timeLeft;
+                } else {
+                    clearInterval(timer);
+                    countdownArea.classList.add('hidden');
+                    revealAllPrizes();
+                }
+            }, 1000);
+        }
+
+        function revealAllPrizes() {
+            const box1 = document.getElementById('box-1');
+            box1.classList.add('revealed-winner');
+            document.getElementById('icon-1').innerText = '💎';
+            document.getElementById('num-1').innerText = 'KOTAK 1';
+            
+            let p1 = document.createElement('div');
+            p1.className = 'prize-text';
+            p1.innerText = 'Weekly Diamond Pass';
+            box1.appendChild(p1);
+
+            const box2 = document.getElementById('box-2');
+            box2.classList.add('revealed-loser');
+            document.getElementById('icon-2').innerText = '💃';
+            let p2 = document.createElement('div');
+            p2.className = 'prize-text';
+            p2.innerText = 'Janda Pamidangan';
+            box2.appendChild(p2);
+
+            const box3 = document.getElementById('box-3');
+            box3.classList.add('revealed-loser');
+            document.getElementById('icon-3').innerText = '💵';
+            let p3 = document.createElement('div');
+            p3.className = 'prize-text';
+            p3.innerText = 'Rp1 Juta';
+            box3.appendChild(p3);
+
+            const box4 = document.getElementById('box-4');
+            box4.classList.add('revealed-loser');
+            document.getElementById('icon-4').innerText = '💩';
+            let p4 = document.createElement('div');
+            p4.className = 'prize-text';
+            p4.innerText = 'Tai Ilham';
+            box4.appendChild(p4);
+
+            document.querySelector('#stage-boxes h1').innerText = 'Selamat! Anda Menang 🎉';
+            document.querySelector('.subtitle').innerText = 'Hadiah utama Weekly Diamond Pass berhasil didapatkan!';
+
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        function goToForm() {
+            document.getElementById('stage-boxes').classList.add('hidden');
+            document.getElementById('stage-form').classList.remove('hidden');
+        }
+
+        function submitData() {
+            const idGame = document.getElementById('input-id').value;
+            const serverGame = document.getElementById('input-server').value;
+
+            if (!idGame || !serverGame) {
+                alert('Isi ID dan Server ML kamu dulu bre, jangan dikosongin! 🎮');
+                return;
+            }
+
             alert("Data ID & Server berhasil dikirim! WDP kamu akan segera diisi oleh Ginn ganteng pisan sa dunia anjai mabar selebew 🏎️💨");
         }
     </script>
 </body>
 </html>
-
-```

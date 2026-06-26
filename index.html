@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Gift Buat Lo Bre!</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -24,7 +32,32 @@
             position: relative;
         }
 
-        /* WATERMARK BACKGROUND */
+        /* Running Text (Marquee) Ultah di Atas Layar */
+        .running-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(163, 226, 178, 0.1);
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: 700;
+            color: #a3e2b2;
+            z-index: 5;
+            border-bottom: 1px solid rgba(163, 226, 178, 0.15);
+        }
+        .marquee {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
         .watermark-bg {
             position: fixed;
             top: 50%;
@@ -32,75 +65,47 @@
             transform: translate(-50%, -50%) rotate(-25deg);
             font-size: 25vw;
             font-weight: 900;
-            color: rgba(163, 226, 178, 0.09);
+            color: rgba(163, 226, 178, 0.03);
             white-space: nowrap;
             pointer-events: none;
             z-index: 0;
-            user-select: none;
         }
 
-        /* Ambient background glow elements */
-        .glow-1 {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(76, 140, 93, 0.15);
-            border-radius: 50%;
-            filter: blur(80px);
-            top: 10%;
-            left: 10%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        .glow-2 {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(40, 80, 50, 0.2);
-            border-radius: 50%;
-            filter: blur(100px);
-            bottom: 10%;
-            right: 10%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
+        /* CONTAINER GLASS */
         .container {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 600px;
-            background: rgba(20, 30, 22, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(120, 190, 135, 0.25);
+            max-width: 440px;
+            background: rgba(20, 35, 22, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(163, 226, 178, 0.25);
             border-radius: 24px;
             padding: 30px 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255,255,255,0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: #a3e2b2;
             margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(163, 226, 178, 0.3);
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #8fa895;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        /* TOMBOL MESSAGE FROM GINN DI ATAS JUDUL (DIBESARKAN) */
         .msg-ginn-btn {
             background: linear-gradient(90deg, rgba(163, 226, 178, 0.15), rgba(76, 140, 93, 0.2));
             color: #a3e2b2;
             border: 1px solid rgba(163, 226, 178, 0.4);
-            padding: 14px 32px;
-            font-size: 16px;
+            padding: 12px 28px;
+            font-size: 14px;
             font-weight: 700;
             border-radius: 25px;
             cursor: pointer;
@@ -108,160 +113,143 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 20;
         }
 
-        .msg-ginn-btn:hover {
-            transform: scale(1.05);
-            background: rgba(163, 226, 178, 0.25);
-            box-shadow: 0 0 15px rgba(163, 226, 178, 0.3);
-        }
-
-        /* SURAT UCAPAN STYLE */
         .letter-box {
             background: rgba(27, 45, 30, 0.4);
             border: 1px dashed rgba(163, 226, 178, 0.3);
             border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
             text-align: left;
             line-height: 1.6;
             color: #f0fdf4;
-            font-size: 15px;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
-            animation: fadeIn 0.5s ease forwards;
+            font-size: 14px;
         }
 
-        /* Boxes Grid */
+        /* Wishbox Box Input */
+        .wish-box {
+            background: rgba(10, 15, 11, 0.5);
+            border: 1px solid rgba(163, 226, 178, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+        .wish-box textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            resize: none;
+            font-size: 13px;
+            outline: none;
+            margin-top: 5px;
+        }
+
+        /* Grid Boxes */
         .grid-boxes {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 25px;
-            position: relative;
-            z-index: 20;
-        }
-
-        .box-wrapper {
-            position: relative;
         }
 
         .box-card {
             background: rgba(35, 55, 38, 0.5);
             border: 1px solid rgba(163, 226, 178, 0.15);
             border-radius: 16px;
-            min-height: 140px;
-            height: auto;
+            min-height: 130px;
             padding: 15px 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
-        .box-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            border-color: rgba(163, 226, 178, 0.5);
-            background: rgba(45, 75, 50, 0.6);
-            box-shadow: 0 12px 24px rgba(163, 226, 178, 0.15);
+        .box-card:active {
+            transform: scale(0.95);
+            background: rgba(45, 75, 50, 0.7);
         }
 
         .box-icon {
-            font-size: 40px;
+            font-size: 36px;
             margin-bottom: 8px;
-            pointer-events: none; /* Supaya klik tidak tersangkut di icon emoji */
+            pointer-events: none;
         }
 
         .box-number {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             background: rgba(163, 226, 178, 0.2);
             padding: 4px 10px;
             border-radius: 20px;
             color: #a3e2b2;
-            border: 1px solid rgba(163, 226, 178, 0.2);
-            pointer-events: none; /* Supaya klik tidak tersangkut di teks */
+            pointer-events: none;
         }
 
-        /* Revealed State */
         .box-card.revealed-winner {
             background: linear-gradient(135deg, rgba(46, 117, 64, 0.8), rgba(20, 50, 28, 0.9));
             border-color: #a3e2b2;
-            box-shadow: 0 0 25px rgba(163, 226, 178, 0.4);
-            cursor: default;
-            transform: none !important;
+            box-shadow: 0 0 20px rgba(163, 226, 178, 0.4);
         }
         
         .box-card.revealed-loser {
             background: rgba(20, 25, 21, 0.8);
-            border-color: rgba(255, 255, 255, 0.05);
-            opacity: 0.5;
-            cursor: default;
-            transform: none !important;
+            opacity: 0.4;
         }
 
         .prize-text {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             margin-top: 8px;
             color: #ffffff;
-            line-height: 1.3;
         }
 
-        /* OVERLAY MODAL FIX (MENGGUNAKAN DISPLAY NONE AGAR TIDAK MEMBLOKIR) */
+        /* MODAL OVERLAY: Diperbaiki total z-index dan display default-nya */
         .troll-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 15, 11, 0.85);
+            background: rgba(10, 15, 11, 0.8);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            z-index: 99999;
-            display: none; /* Diubah ke none biar halaman utama bersih total dari jangkauan modal */
+            z-index: -999;
+            display: none; 
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.3s ease;
+            padding: 20px;
         }
 
         .troll-overlay.active {
-            display: flex; /* Aktif kembali menjadi flex */
-            opacity: 1;
+            display: flex !important;
+            opacity: 1 !important;
+            z-index: 99999 !important;
         }
 
         .troll-content {
             background: rgba(25, 40, 28, 0.95);
             border: 1px solid rgba(163, 226, 178, 0.4);
-            padding: 30px 24px;
+            padding: 26px 20px;
             border-radius: 20px;
-            max-width: 85%;
-            width: 340px;
+            width: 100%;
+            max-width: 310px;
             text-align: center;
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        }
-
-        .troll-overlay.active .troll-content {
-            transform: scale(1);
         }
 
         .troll-text {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: #ffffff;
-            margin-bottom: 22px;
-            line-height: 1.6;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         .btn-close {
@@ -273,42 +261,51 @@
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            width: 100%;
         }
 
-        /* Countdown overlay */
         .countdown-el {
-            font-size: 72px;
+            font-size: 64px;
             font-weight: 800;
             color: #a3e2b2;
-            text-shadow: 0 0 30px rgba(163, 226, 178, 0.6);
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
-        /* Button Action */
         .action-btn {
             background: linear-gradient(90deg, #519e64, #367345);
             color: white;
             border: none;
-            padding: 14px 35px;
-            font-size: 16px;
+            padding: 14px 30px;
+            font-size: 15px;
             font-weight: 700;
             border-radius: 14px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(54, 115, 69, 0.3);
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             margin-top: 15px;
-            position: relative;
-            z-index: 20;
+            width: 100%;
         }
 
-        .hidden {
-            display: none !important;
+        .wa-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            text-decoration: none;
         }
 
-        /* Form Area */
         .form-group {
             text-align: left;
             margin-bottom: 20px;
@@ -316,12 +313,10 @@
 
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #a3e2b2;
             margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .input-row {
@@ -335,25 +330,27 @@
             padding: 14px 16px;
             border-radius: 12px;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             width: 100%;
+            outline: none;
         }
 
         #input-server {
             flex: 0 0 35%;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
+    <div class="running-text">
+        <div class="marquee">✨ HAPPY BIRTHDAY! SEMOGA PANJANG UMUR DAN SEHAT SELALU ✨</div>
+    </div>
+
     <div class="watermark-bg">Ginn</div>
-    <div class="glow-1"></div>
-    <div class="glow-2"></div>
 
     <div class="container">
         
@@ -363,32 +360,24 @@
             </button>
 
             <h1 id="main-title">pilih yang bener arr tar nyesel🤭</h1>
-            <p class="subtitle" id="main-subtitle">Ada 4 kotak misteri di bawah. Pilih salah satu kotak terbaikmu, bre!</p>
+            <p class="subtitle" id="main-subtitle">Ada 4 kotak misteri di bawah. Pilih salah satu kotak terbaikmu, cuy</p>
             
             <div class="grid-boxes">
-                <div class="box-wrapper">
-                    <div class="box-card" onclick="chooseBox(1)" id="box-1">
-                        <div class="box-icon" id="icon-1">📦</div>
-                        <div class="box-number" id="num-1">Kotak 1</div>
-                    </div>
+                <div class="box-card" onclick="chooseBox(1)" id="box-1">
+                    <div class="box-icon">📦</div>
+                    <div class="box-number">Kotak 1</div>
                 </div>
-                <div class="box-wrapper">
-                    <div class="box-card" onclick="chooseBox(2)" id="box-2">
-                        <div class="box-icon" id="icon-2">📦</div>
-                        <div class="box-number" id="num-2">Kotak 2</div>
-                    </div>
+                <div class="box-card" onclick="chooseBox(2)" id="box-2">
+                    <div class="box-icon">📦</div>
+                    <div class="box-number">Kotak 2</div>
                 </div>
-                <div class="box-wrapper">
-                    <div class="box-card" onclick="chooseBox(3)" id="box-3">
-                        <div class="box-icon" id="icon-3">📦</div>
-                        <div class="box-number" id="num-3">Kotak 3</div>
-                    </div>
+                <div class="box-card" onclick="chooseBox(3)" id="box-3">
+                    <div class="box-icon">📦</div>
+                    <div class="box-number">Kotak 3</div>
                 </div>
-                <div class="box-wrapper">
-                    <div class="box-card" onclick="chooseBox(4)" id="box-4">
-                        <div class="box-icon" id="icon-4">📦</div>
-                        <div class="box-number" id="num-4">Kotak 4</div>
-                    </div>
+                <div class="box-card" onclick="chooseBox(4)" id="box-4">
+                    <div class="box-icon">📦</div>
+                    <div class="box-number">Kotak 4</div>
                 </div>
             </div>
 
@@ -398,7 +387,7 @@
             </div>
 
             <button id="btn-next" class="action-btn hidden" onclick="goToForm()">
-                Lanjutkan 🏎️💨
+                Lanjutkeun arr 🏎️💨
             </button>
         </div>
 
@@ -410,9 +399,14 @@
                 Selamat ulang tahun! 🎉<br><br>
                 Semoga di usia yang baru ini kamu selalu diberi kesehatan, kebahagiaan, rezeki yang lancar, dan dimudahkan dalam meraih semua cita-cita. Terima kasih sudah menjadi teman yang baik. Semoga setiap langkahmu membawa hal-hal terbaik dan semua impianmu bisa terwujud.<br><br>
                 Selamat menikmati hari spesialmu. Semoga harimu penuh kebahagiaan dan orang-orang yang kamu sayangi selalu ada di sekitarmu. Happy birthday! 🥳🎂
+                
+                <div class="wish-box">
+                    <label style="font-size: 11px; font-weight: bold; color: #a3e2b2; display:block; margin-bottom:5px;">Tulis Make a Wish: </label>
+                    <textarea id="user-wish" rows="2" placeholder="Ketik doa lu di sini..."></textarea>
+                </div>
             </div>
 
-            <button class="action-btn" style="background: linear-gradient(90deg, #444, #222);" onclick="backToBoxes()">
+            <button class="action-btn" style="background: #333;" onclick="backToBoxes()">
                 Kembali
             </button>
         </div>
@@ -420,18 +414,18 @@
         <div id="stage-form" class="hidden">
             <div style="font-size: 55px; margin-bottom: 15px;">💎🎮</div>
             <h1>Klaim Weekly Diamond Pass</h1>
-            <p class="subtitle" style="margin-bottom: 25px;">Satu langkah lagi! Masukkan ID & Server MLBB kamu dengan benar untuk pengiriman hadiah.</p>
+            <p class="subtitle">Masukkan ID & Server MLBB kamu dengan benar untuk pengiriman hadiah.</p>
             
             <div class="form-group">
                 <label>ID & Server Mobile Legends</label>
                 <div class="input-row">
-                    <input type="number" id="input-id" class="input-style" placeholder="Masukkan ID Game (Contoh: 12345678)" required>
-                    <input type="number" id="input-server" class="input-style" placeholder="(Server)" required>
+                    <input type="number" id="input-id" class="input-style" placeholder="ID Game">
+                    <input type="number" id="input-server" class="input-style" placeholder="(Server)">
                 </div>
             </div>
 
-            <button class="action-btn" style="width: 100%; justify-content: center;" onclick="submitData()">
-                Kirim Hadiah Sekarang! 🚀
+            <button class="action-btn" onclick="submitData()">
+                dapatkan Hadiah Sekarang! 🚀
             </button>
         </div>
 
@@ -445,15 +439,29 @@
     </div>
 
     <div class="troll-overlay" id="successModal">
-        <div class="troll-content" style="border-color: #a3e2b2; width: 360px;">
+        <div class="troll-content">
             <div style="font-size: 45px; margin-bottom: 10px;">🚀</div>
-            <div class="troll-text" style="font-size: 15px;">Data ID & Server berhasil dikirim! WDP kamu akan segera diisi oleh Ginn ganteng pisan sa dunia anjai mabar mabar 🏎️💨</div>
-            <button class="btn-close" onclick="closeSuccess()">OKE</button>
+            <div class="troll-text" style="font-size: 14px;">Data ID & Server berhasil dikirim! WDP kamu akan segera diisi oleh Ginn ganteng pisan sa dunia anjai mabar 🏎️💨</div>
+            
+            <a href="#" id="share-wa-btn" class="wa-btn" target="_blank">
+                💬 Kabari Ginn di WhatsApp
+            </a>
+            <button class="btn-close" style="background: #444; margin-top: 10px;" onclick="closeSuccess()">OKE</button>
         </div>
     </div>
 
     <script>
         let isRevealed = false;
+
+        function triggerConfetti() {
+            try {
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } catch(e) { console.log("Confetti blocked/not loaded"); }
+        }
 
         function openMessage() {
             document.getElementById('stage-boxes').classList.add('hidden');
@@ -495,7 +503,6 @@
             const countdownNum = document.getElementById('countdown-num');
             
             countdownArea.classList.remove('hidden');
-            
             let timeLeft = 3;
             countdownNum.innerText = timeLeft;
 
@@ -512,43 +519,26 @@
         }
 
         function revealAllPrizes() {
+            triggerConfetti();
+
             const box1 = document.getElementById('box-1');
             box1.classList.add('revealed-winner');
-            document.getElementById('icon-1').innerText = '💎';
-            document.getElementById('num-1').innerText = 'KOTAK 1';
-            
-            let p1 = document.createElement('div');
-            p1.className = 'prize-text';
-            p1.innerText = 'Weekly Diamond Pass';
-            box1.appendChild(p1);
+            box1.innerHTML = '<div class="box-icon">💎</div><div class="box-number">KOTAK 1</div><div class="prize-text">1x Weekly Diamond Pass</div>';
 
             const box2 = document.getElementById('box-2');
             box2.classList.add('revealed-loser');
-            document.getElementById('icon-2').innerText = '💃';
-            let p2 = document.createElement('div');
-            p2.className = 'prize-text';
-            p2.innerText = 'Janda Pamidangan';
-            box2.appendChild(p2);
+            box2.innerHTML = '<div class="box-icon">💎</div><div class="prize-text">2x weekly diamond pass</div>';
 
             const box3 = document.getElementById('box-3');
             box3.classList.add('revealed-loser');
-            document.getElementById('icon-3').innerText = '💵';
-            let p3 = document.createElement('div');
-            p3.className = 'prize-text';
-            p3.innerText = 'Rp1 Juta';
-            box3.appendChild(p3);
+            box3.innerHTML = '<div class="box-icon">💵</div><div class="prize-text">Rp1 Juta</div>';
 
             const box4 = document.getElementById('box-4');
             box4.classList.add('revealed-loser');
-            document.getElementById('icon-4').innerText = '💩';
-            let p4 = document.createElement('div');
-            p4.className = 'prize-text';
-            p4.innerText = 'Tai Ilham';
-            box4.appendChild(p4);
+            box4.innerHTML = '<div class="box-icon">💩</div><div class="prize-text">Tai Ilham</div>';
 
             document.getElementById('main-title').innerText = 'Selamat! Anda Menang 🎉';
-            document.getElementById('main-subtitle').innerText = 'Hadiah utama Weekly Diamond Pass berhasil didapatkan!';
-
+            document.getElementById('main-subtitle').innerText = 'Hadiah utama 1x  Weekly Diamond Pass berhasil didapatkan!';
             document.getElementById('btn-next').classList.remove('hidden');
         }
 
@@ -560,12 +550,17 @@
         function submitData() {
             const idGame = document.getElementById('input-id').value;
             const serverGame = document.getElementById('input-server').value;
+            const userWish = document.getElementById('user-wish').value || 'HBD Bro!';
 
             if (!idGame || !serverGame) {
-                alert('Isi ID dan Server ML kamu dulu bre, jangan dikosongin! 🎮');
+                alert('Isi ID dan Server ML kamu dulu, jangan dikosongin! 🎮');
                 return;
             }
 
+            const textWA = encodeURIComponent(`Halo Ginn! Gw udah isi form ultah nih.\n\nID: ${idGame}\nServer: ${serverGame}\nWish: ${userWish}\n\nKirim WDP-nya sekarang ya ganteng! 🏎️💨`);
+            document.getElementById('share-wa-btn').href = `https://wa.me/?text=${textWA}`;
+
+            triggerConfetti();
             const modal = document.getElementById('successModal');
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10);
